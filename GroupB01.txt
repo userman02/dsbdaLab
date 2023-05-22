@@ -1,0 +1,50 @@
+perform the following operations using Python on the Facebook metrics data set.
+a. Create data subset 
+b. Merge Data
+C. Sort Data
+D. Transposition Data 
+E. Shape and reshape Data
+
+
+import pandas as pd
+df = pd.read_csv('dataset_Facebook.csv', sep=';')
+print('\n-------------------------- df --------------------------\n')
+print(df)
+# A. CREATE DATA SUBSETS
+# Creating subset using loc() and iloc() function
+# No. of likes V/s the No. of shares for the first 5 posts
+df_subset1=df.loc[0:4, ['like', 'share']] 
+print('\n-------------------------- df_subset1 --------------------------\n')
+print(df_subset1)
+df_subset2=df.iloc[[0, 1, 2, 3, 4], [16, 17]]
+print('\n-------------------------- df_subset2 --------------------------\n')
+print(df_subset2)
+# B. MERGE DATA
+# Creating a dataframe that has the like to share ratio of every post and status
+df_subset3=df['like'].div(df['share']).to_frame('like-share ratio')
+print('\n-------------------------- df_subset3 --------------------------\n')
+print(df_subset3)
+# Merging the two dataframes using concat() function
+df_merged=pd.concat([df, df_subset3], axis=1, join='inner')
+print('\n-------------------------- df_merged --------------------------\n')
+print(df_merged)
+# C. SORT DATA
+# Sorting rows according to Page total likes, Type and then like
+df_sorted=df.sort_values(by=['Page total likes', 'Type', 'like'], ascending=False)
+print('\n-------------------------- df_sorted --------------------------\n')
+print(df_sorted)
+# D. TRANSPOSING DATA
+# Creating a transpose of the dataframe using transpose() function
+df_transposed=df.transpose()
+print('\n-------------------------- df_transposed --------------------------\n')
+print(df_transposed)
+# E. SHAPE AND RESHAPE DATA
+# Shape of the dataframe
+df_shape=df.shape
+print('\n-------------------------- df_shape --------------------------\n')
+print(df_shape)
+# Reshape the dataframe using pivot() function
+# Shows the relationship between the Type of Post and the No. of likes
+df_reshape=df.pivot(columns='Type', values='like')
+print('\n-------------------------- df_reshape --------------------------\n')
+print(df_reshape)

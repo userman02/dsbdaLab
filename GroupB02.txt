@@ -1,0 +1,80 @@
+#Perform the following operation using Python on the Air quality and Heart Diseases data sets
+Data cleaning 
+Data integration 
+Data transformation
+Error correction 
+Data model building 
+
+
+
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv('heart1.csv')
+df
+#Data cleaning
+df.isnull().sum() #checking null values
+#Output
+
+droped_df1 = df1.dropna()# droping null values
+droped_df1.isnull().sum()
+
+#Data Integration
+df1=df[['Age','Sex','ChestPain']].loc[0:20]
+df1
+df2=df[['Age','Sex','ChestPain']].loc[21:30]
+df2
+df3=df[['Age','Sex','ChestPain']].loc[31:35]
+df3
+integrated_df=pd.concat([df1,df2,df3])
+integrated_df
+
+#Data Transformation
+df.loc[df['Sex']==1, 'Sex']='M' #replacing 1 with M
+df.loc[df['Sex']==0, 'Sex']='F'#replacing 0 with F
+df.head()
+
+from sklearn.preprocessing  import LabelEncoder
+labelencoder=LabelEncoder()
+df['Sex']=labelencoder.fit_transform(df['Sex'])
+df     
+#used to encode categorical variables into numerical labels
+
+df4 = pd.read_csv('AirQuality.csv',sep=';')
+df4
+
+#Replacing the Object dtype of Date to Date dtype
+df4['Date'] = pd.to_datetime(df4['Date'])
+
+#To Replace the Comma's with Dot
+df4.replace(to_replace=',',value='.', regex=True, inplace=True)
+df4
+
+df4.head()
+
+#error correction
+df[df['Ca']==4]
+df.loc[df['Ca']==4,'Ca']=np.NaN  
+#It locates the rows where the value in the 'ca' column is equal to 4 and replaces those values with NaN (Not a Number)
+df.isnull().sum()
+#Output
+
+df
+#Data model Building
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+
+x = df.drop(['AHD', 'Sex'], axis=1)
+y = df['AHD']
+
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size = 0.2)
+
+model = LogisticRegression(max_iter=1000)
+model.fit(x_train, y_train)
+
+# Make Prediction on the test set
+y_pred = model.predict(x_test)
+
+accuracy = model.score(x_train, y_train)
+accuracy

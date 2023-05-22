@@ -1,0 +1,81 @@
+Visualize the data using Python libraries matplotlib, seaborn by plotting the graphs for assignment no. 2 and 3 of Group B
+1. Data cleaning 
+2. Data integration 
+3. Data transformation
+4. Error correcting
+5. Data model building 
+
+
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+df = pd.read_csv('heart1.csv')
+df
+
+df.head()
+
+df.shape
+
+df.info()
+#some output here expected
+
+df.describe()
+
+df.isnull().sum()
+#output expected here
+
+# acoordint to above cell their is no null value but in case if thier exist a null value in dta set use following code to replace it with mean value
+df['Age'] = df['Age'].fillna(df['Age'].mean())
+df['RestBP'] = df['RestBP'].fillna(df['RestBP'].mean())
+df['Chol'] = df['Chol'].fillna(df['Chol'].mean())
+df['Oldpeak'] = df['Oldpeak'].fillna(df['Oldpeak'].mean())
+df['MaxHR'] = df['MaxHR'].fillna(df['MaxHR'].mean())
+df['Ca'] = df['Ca'].fillna(1.0).astype(int)
+df['Slope'] = df['Slope'].fillna(2.0).astype(int)
+
+sns.countplot(x='AHD', data=df)
+plt.show()
+#diagramatic output expected
+
+sns.countplot(x='Sex', data=df)
+plt.ylabel('Number of people')
+plt.show()
+#diagramatic output expected
+
+sns.countplot(x='ChestPain', data=df)
+plt.title("Chest Pain Types")
+plt.xlabel('Chest Pain Type')
+plt.ylabel('Number of patients')
+plt.show()
+#diagramatic output expected
+
+sns.relplot(x='Age', y='RestBP', data=df)
+plt.title('Age vs Resting BP')
+plt.show()
+#diagramatic output expected
+
+sns.catplot(x='Sex', y='RestBP', data=df, hue="Sex")
+plt.title('Sex vs Resting BP')
+plt.show()
+#diagramatic output expected
+
+df['RestECG'].value_counts().plot.bar()
+plt.title('Resting ECG types')
+plt.xlabel('Types of Resting ECG')
+plt.ylabel('Number of people')
+plt.show()
+#diagramatic output expected
+
+plt.pie(df['Slope'].value_counts(), labels=['3','2','1'], autopct='%1.1f%%', shadow=True)
+plt.title('Ratios of ST Slope Types')
+plt.show()
+#diagramatic output expected
+
+plt.hist(df['Chol'])
+plt.title('Cholestrol')
+plt.xlabel('Cholestrol')
+plt.show()
+#diagramatic output expected
